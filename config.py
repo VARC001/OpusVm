@@ -31,9 +31,6 @@ GIT_TOKEN = getenv(
     "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"
 )
 
-SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/storm_techh")
-SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/storm_core")
-
 AUTO_LEAVING_ASSISTANT = bool(getenv("AUTO_LEAVING_ASSISTANT", True))
 
 SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", "2d3fd5ccdd3d43dda6f17864d8eb7281")
@@ -43,6 +40,22 @@ PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", 50))
 
 TG_AUDIO_FILESIZE_LIMIT = int(getenv("TG_AUDIO_FILESIZE_LIMIT", 104857600))
 TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", 1073741824))
+
+SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/storm_techh")
+SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/storm_core")
+
+START_IMG_URL = getenv("START_IMG_URL", "https://envs.sh/Oku.jpg")
+PING_IMG_URL = getenv("PING_IMG_URL", "https://graph.org/file/9077cd2ba5818efef2d28.jpg")
+PLAYLIST_IMG_URL = getenv("PLAYLIST_IMG_URL", "https://graph.org/file/eb1e2b58e17964083db73.jpg")
+STATS_IMG_URL = getenv("STATS_IMG_URL", "https://envs.sh/Ol4.jpg")
+TELEGRAM_AUDIO_URL = getenv("TELEGRAM_AUDIO_URL", "https://envs.sh/Olr.jpg")
+TELEGRAM_VIDEO_URL = getenv("TELEGRAM_VIDEO_URL", "https://envs.sh/Olr.jpg")
+STREAM_IMG_URL = getenv("STREAM_IMG_URL", "https://envs.sh/Olk.jpg")
+SOUNDCLOUD_IMG_URL = getenv("SOUNDCLOUD_IMG_URL", "https://envs.sh/Olk.jpg")
+YOUTUBE_IMG_URL = getenv("YOUTUBE_IMG_URL", "https://envs.sh/Olk.jpg")
+SPOTIFY_ARTIST_IMG_URL = getenv("SPOTIFY_ARTIST_IMG_URL", "https://envs.sh/Olk.jpg")
+SPOTIFY_ALBUM_IMG_URL = getenv("SPOTIFY_ALBUM_IMG_URL", "https://envs.sh/Olk.jpg")
+SPOTIFY_PLAYLIST_IMG_URL = getenv("SPOTIFY_PLAYLIST_IMG_URL", "https://envs.sh/Olk.jpg")
 
 STRING1 = getenv("STRING_SESSION", "")
 STRING2 = getenv("STRING_SESSION2", None)
@@ -56,23 +69,6 @@ lyrical = {}
 votemode = {}
 autoclean = []
 confirmer = {}
-
-START_IMG_URL = getenv(
-    "START_IMG_URL", "https://envs.sh/Oku.jpg"
-)
-PING_IMG_URL = getenv(
-    "PING_IMG_URL", "https://graph.org/file/9077cd2ba5818efef2d28.jpg"
-)
-PLAYLIST_IMG_URL = "https://graph.org/file/eb1e2b58e17964083db73.jpg"
-STATS_IMG_URL = "https://envs.sh/Ol4.jpg"
-TELEGRAM_AUDIO_URL = "https://envs.sh/Olr.jpg"
-TELEGRAM_VIDEO_URL = "https://envs.sh/Olr.jpg"
-STREAM_IMG_URL = "https://envs.sh/Olk.jpg"
-SOUNCLOUD_IMG_URL = "https://envs.sh/Olk.jpg"
-YOUTUBE_IMG_URL = "https://envs.sh/Olk.jpg"
-SPOTIFY_ARTIST_IMG_URL = "https://envs.sh/Olk.jpg"
-SPOTIFY_ALBUM_IMG_URL = "https://envs.sh/Olk.jpg"
-SPOTIFY_PLAYLIST_IMG_URL = "https://envs.sh/Olk.jpg"
 
 def time_to_seconds(time):
     stringt = str(time)
