@@ -1,4 +1,4 @@
-from Opus.core.mongo import mongodb, pymongodb
+"""from Opus.core.mongo import mongodb, pymongodb
 from typing import Dict, List, Union
 
 cloneownerdb = mongodb.cloneownerdb
@@ -28,4 +28,4 @@ async def get_clonebot_username(bot_id):
     if result:
         return result.get("user_name")
     else:
-        return False
+        return False"""
