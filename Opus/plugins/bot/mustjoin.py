@@ -55,7 +55,7 @@ async def must_join_channel(app: Client, msg: Message):
                 chat_info = await app.get_chat(MUST_JOIN)
                 link = chat_info.invite_link
             try:
-                await msg.reply_photo(random.choice(OPUS), caption=f"» ʏᴏ! 🎧 \nʀᴇᴀᴅʏ ᴛᴏ ᴠɪʙᴇ? ᴄʟɪᴄᴋ ʙᴇʟᴏᴡ, ᴊᴏɪɴ ᴜᴘ, ᴀɴᴅ ʟᴇᴛ ᴛʜᴇ ᴍᴜꜱɪᴄ ʀᴏʟʟ 🚀",
+                await msg.reply_photo(random.choice(OPUS), caption=f"ʜᴇʏ 🎧\n» ʀᴇᴀᴅʏ ᴛᴏ ᴠɪʙᴇ? ᴄʟɪᴄᴋ ʙᴇʟᴏᴡ, ᴊᴏɪɴ ᴜꜱ ᴛᴏ ꜱᴛᴀʀᴛ ᴀɴᴅ ᴜꜱᴇ ᴍʏ ꜰᴇᴀᴛᴜʀᴇꜱ 🚀",
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [
