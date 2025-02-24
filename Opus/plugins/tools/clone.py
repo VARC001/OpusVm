@@ -1,4 +1,4 @@
-import re
+"""import re
 import logging
 import asyncio
 import importlib
@@ -170,3 +170,4 @@ async def list_cloned_bots(client, message):
     except Exception as e:
         logging.exception(e)
         await message.reply_text("An error occurred while listing cloned bots.")
+"""
