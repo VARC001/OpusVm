@@ -94,7 +94,7 @@ def UserbotWrapper(command):
                             )
                         except Exception as e:
                             return await message.reply_text(
-                                f"{app.mention} ᴀꜱꜱɪꜱᴛᴀɴᴛ ʜᴀꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ ᴛʜɪꜱ ɢʀᴏᴜᴘ\n\n𝗜𝗱:- {userbot.mention}.."
+                                f"{app.mention} ᴀꜱꜱɪꜱᴛᴀɴᴛ ʜᴀꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ ᴛʜɪꜱ ɢʀᴏᴜᴘ"
                             )
 
                 if invitelink.startswith("https://t.me/+"):
@@ -107,7 +107,7 @@ def UserbotWrapper(command):
                     await userbot.join_chat(invitelink)
                     await myu.delete()
                     await message.reply_text(
-                        f"{app.mention} ᴀꜱꜱɪꜱᴛᴀɴᴛ ʜᴀꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ ᴛʜɪꜱ ɢʀᴏᴜᴘ\n\n𝗜𝗱:- **@{userbot.username}**"
+                        f"{app.mention} ᴀꜱꜱɪꜱᴛᴀɴᴛ ʜᴀꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ ᴛʜɪꜱ ɢʀᴏᴜᴘ"
                     )
                 except InviteRequestSent:
                     try:
@@ -119,13 +119,13 @@ def UserbotWrapper(command):
                     await asyncio.sleep(3)
                     await myu.delete()
                     await message.reply_text(
-                        f"{app.mention} ᴀꜱꜱɪꜱᴛᴀɴᴛ ʜᴀꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ ᴛʜɪꜱ ɢʀᴏᴜᴘ\n\n𝗜𝗱:- **@{userbot.username}**"
+                        f"{app.mention} ᴀꜱꜱɪꜱᴛᴀɴᴛ ʜᴀꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ ᴛʜɪꜱ ɢʀᴏᴜᴘ"
                     )
                 except UserAlreadyParticipant:
                     pass
                 except Exception as e:
                     return await message.reply_text(
-                        f"{app.mention} ᴀꜱꜱɪꜱᴛᴀɴᴛ ʜᴀꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ ᴛʜɪꜱ ɢʀᴏᴜᴘ\n\n𝗜𝗱:- **@{userbot.username}**"
+                        f"{app.mention} ᴀꜱꜱɪꜱᴛᴀɴᴛ ʜᴀꜱ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ᴊᴏɪɴᴇᴅ ᴛʜɪꜱ ɢʀᴏᴜᴘ"
                     )
 
                 links[chat_id] = invitelink
