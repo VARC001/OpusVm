@@ -75,7 +75,7 @@ async def join_group(client, message):
         ]:
             try:
                 await app.unban_chat_member(chat_id, userbot.id)
-                await done.edit_text("**ᴀssɪsᴛᴀɴᴛ ɪs ᴜɴʙᴀɴɴɪɴɢ...**")
+                await done.edit_text("ᴀssɪsᴛᴀɴᴛ ɪs ᴜɴʙᴀɴɴɪɴɢ")
                 await userbot.join_chat(message.chat.username)
                 await done.edit_text(
                     "ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴡᴀꜱ ᴜɴʙᴀɴɴᴇᴅ ᴀɴᴅ ʀᴇᴊᴏɪɴᴇᴅ ✅"
@@ -144,7 +144,7 @@ async def join_group(client, message):
             try:
                 await app.unban_chat_member(chat_id, userbot.id)
                 await done.edit_text(
-                    "**ᴀssɪsᴛᴀɴᴛ ɪs ᴜɴʙᴀɴɴᴇᴅ**"
+                    "ᴀssɪsᴛᴀɴᴛ ɪs ᴜɴʙᴀɴɴᴇᴅ"
                 )
                 invite_link = await app.create_chat_invite_link(
                     chat_id, expire_date=None
