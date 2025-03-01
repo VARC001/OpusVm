@@ -15,7 +15,7 @@ from pyrogram.errors import (
     UserNotParticipant,
 )
 from Opus import app
-from Opus.utils.shukla_ban import admin_filter
+from Opus.utils.opusdb import admin_filter
 from Opus.utils.decorators.userbotjoin import UserbotWrapper
 from Opus.utils.database import get_assistant, is_active_chat
 
