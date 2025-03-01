@@ -134,4 +134,4 @@ async def restart_(_, message):
     await response.edit_text(
         "» ʀᴇsᴛᴀʀᴛ ᴘʀᴏᴄᴇss sᴛᴀʀᴛᴇᴅ, ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ғᴏʀ ғᴇᴡ sᴇᴄᴏɴᴅs ᴜɴᴛɪʟ ᴛʜᴇ ʙᴏᴛ sᴛᴀʀᴛs..."
     )
-    os.system(f"kill -9 {os.getpid()} && bash start")
+    os.system(f"kill -9 {os.getpid()} && bash start.sh")
