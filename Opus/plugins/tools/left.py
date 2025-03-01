@@ -63,7 +63,7 @@ async def on_left_chat_member(_, message: Message):
                 f"@{message.chat.username}" if message.chat.username else "ᴘʀɪᴠᴀᴛᴇ ɢʀᴏᴜᴘ"
             )
             chat_id = message.chat.id
-            left = f"● <b>ʟᴇꜰᴛ ɢʀᴏᴜᴘ</b> ●\n\n<b>ᴄʜᴀᴛ ᴛɪᴛʟᴇ : {title}</b>\n\n<b>ᴄʜᴀᴛ ɪᴅ : {chat_id}</b>\n\n<b>ʀᴇᴍᴏᴠᴇᴅ ʙʏ : {remove_by}</b>"
+            left = f"● <b>ʟᴇꜰᴛ ɢʀᴏᴜᴘ</b> ●\n\n<b>ᴄʜᴀᴛ ᴛɪᴛʟᴇ : {title}</b>\n<b>ᴄʜᴀᴛ ɪᴅ : {chat_id}</b>\n<b>ʀᴇᴍᴏᴠᴇᴅ ʙʏ : {remove_by}</b>"
             await app.send_photo(LOG_GROUP_ID, photo=random.choice(photo), caption=left)
             await delete_served_chat(chat_id)
             await userbot.leave_chat(chat_id)
