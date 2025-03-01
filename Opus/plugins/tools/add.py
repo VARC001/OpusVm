@@ -64,12 +64,7 @@ async def join_watcher(_, message):
                 username = (
                     message.chat.username if message.chat.username else "ᴘʀɪᴠᴀᴛᴇ ɢʀᴏᴜᴘ"
                 )
-                msg = (
-                    f"**● ᴊᴏɪɴᴇᴅ ᴀ ɴᴇᴡ ɢʀᴏᴜᴘ ●**\n\n"
-                    f"**ᴄʜᴀᴛ ɴᴀᴍᴇ:** {message.chat.title}\n"
-                    f"**ᴄʜᴀᴛ ɪᴅ:** {message.chat.id}\n"
-                    f"**ᴄʜᴀᴛ ᴍᴇᴍʙᴇʀꜱ:** {count}\n"
-                )
+                msg = f"● ᴊᴏɪɴᴇᴅ ᴀ ɴᴇᴡ ɢʀᴏᴜᴘ ●\n\n<b>ᴄʜᴀᴛ ɴᴀᴍᴇ: {message.chat.title}</b>\n<b>ᴄʜᴀᴛ ɪᴅ: {message.chat.id}</b>\n<b>ᴄʜᴀᴛ ᴍᴇᴍʙᴇʀꜱ: {count}</b>"
                 await app.send_photo(
                     LOG_GROUP_ID,
                     photo=random.choice(photo),
@@ -78,8 +73,8 @@ async def join_watcher(_, message):
                         [
                             [
                                 InlineKeyboardButton(
-                                    f"ᴀᴅᴅᴇᴅ ʙʏ",
-                                    url=f"tg://openmessage?user_id={message.from_user.id}",
+                                    f"ᴀᴅᴅ ᴍᴇ",
+                                    url=f"https://t.me/StormMusicPlayer_bot?startgroup=true&admin=delete_messages+invite_users",
                                 )
                             ]
                         ]
