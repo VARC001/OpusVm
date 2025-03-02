@@ -1,4 +1,4 @@
-import re
+"""import re
 import logging
 import asyncio
 import importlib
@@ -168,4 +168,4 @@ async def list_cloned_bots(client, message):
         await message.reply_text(text)
     except Exception as e:
         logging.exception(e)
-        await message.reply_text("ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀʀᴇᴅ ᴡʜɪʟᴇ ʟɪꜱᴛɪɴɢ ᴄʟᴏɴᴇᴅ ʙᴏᴛꜱ.")
+        await message.reply_text("ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀʀᴇᴅ ᴡʜɪʟᴇ ʟɪꜱᴛɪɴɢ ᴄʟᴏɴᴇᴅ ʙᴏᴛꜱ.")"""
