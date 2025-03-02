@@ -14,7 +14,7 @@ from Opus.utils.database import get_assistant
 from config import API_ID, API_HASH
 from Opus import app
 from Opus.misc import SUDOERS
-from Opus.utils.opusdb import clonebotdb
+from Opus.utils.opusdatab import clonebotdb
 from config import LOGGER_ID
 
 CLONES = set()
