@@ -130,7 +130,7 @@ async def check_forcesub(client: Client, message: Message):
             channel_url = invite_link
         await message.reply_photo(
             photo="https://envs.sh/tRr.jpg",
-            caption=(f"👋 ʜᴇʟʟᴏ {message.from_user.mention},\n\nʏᴏᴜ ɴᴇᴇᴅ ᴛᴏ ᴊᴏɪɴ ᴛʜᴇ [ᴄʜᴀɴɴᴇʟ]({channel_url}) ᴛᴏ sᴇɴᴅ ᴍᴇssᴀɢᴇs ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ."),
+            caption=(f"👋 ʜᴇʟʟᴏ {message.from_user.mention},\n\nʏᴏᴜ ɴᴇᴇᴅ ᴛᴏ ᴊᴏɪɴ ᴛʜᴇ @{channel_username} ᴛᴏ sᴇɴᴅ ᴍᴇssᴀɢᴇs ɪɴ ᴛʜɪs ɢʀᴏᴜᴘ."),
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ", url=channel_url)]]),
         )
         await asyncio.sleep(1)
