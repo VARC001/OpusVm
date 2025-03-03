@@ -73,7 +73,7 @@ async def chk_usr(_, message: Message):
     first_name = user_data.get("first_name", "")
     lastname_before = user_data.get("last_name", "")
 
-    msg = f"[{message.from_user.id}](tg://user?id={message.from_user.id})\n"
+    msg = f"{message.from_user.id}\n"
 
     changes = []
 
