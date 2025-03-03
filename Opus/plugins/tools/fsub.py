@@ -30,7 +30,7 @@ async def set_forcesub(client: Client, message: Message):
         return await message.reply_text("ғᴏʀᴄᴇ sᴜʙsᴄʀɪᴘᴛɪᴏɴ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ғᴏʀ ᴛʜɪs ɢʀᴏᴜᴘ.")
 
     if len(message.command) != 2:
-        return await message.reply_text("ᴜsᴀɢᴇ: /ғsᴜʙ <ᴄʜᴀɴɴᴇʟ ᴜsᴇʀɴᴀᴍᴇ ᴏʀ ɪᴅ> ᴏʀ /ғsᴜʙ ᴏғғ ᴛᴏ ᴅɪsᴀʙʟᴇ")
+        return await message.reply_text("ᴜsᴀɢᴇ: /fsub <ᴄʜᴀɴɴᴇʟ ᴜsᴇʀɴᴀᴍᴇ ᴏʀ ɪᴅ> ᴏʀ /fsub ᴏғғ ᴛᴏ ᴅɪsᴀʙʟᴇ")
 
     channel_input = message.command[1]
 
@@ -82,7 +82,7 @@ async def set_forcesub(client: Client, message: Message):
                 f"sᴇᴛ ʙʏ: {set_by_user}"
             ),
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton("๏ ᴄʟᴏsᴇ ๏", callback_data="close_force_sub")]]
+                [[InlineKeyboardButton("ᴄʟᴏsᴇ", callback_data="close_force_sub")]]
             )
         )
         await asyncio.sleep(1)
