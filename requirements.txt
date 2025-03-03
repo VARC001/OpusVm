@@ -5,7 +5,6 @@ beautifulsoup4==4.13.3
 dnspython==2.7.0
 ffmpeg-python==0.2.0
 gpytranslate==1.5.1
-gunicorn==23.0.0
 hachoir==3.3.0
 heroku3==5.2.1
 httpx==0.23.0
@@ -25,3 +24,6 @@ spotipy==2.25.0
 youtube-search==2.1.2
 youtube-search-python==1.6.6
 yt-dlp==2025.2.19
+flask_restful
+flask
+gunicorn
