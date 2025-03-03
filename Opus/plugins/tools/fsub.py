@@ -75,9 +75,9 @@ async def set_forcesub(client: Client, message: Message):
         await message.reply_photo(
             photo="https://envs.sh/tRr.jpg",
             caption=(
-                f"ғᴏʀᴄᴇ sᴜʙsᴄʀɪᴘᴛɪᴏɴ sᴇᴛ ᴛᴏ [{channel_title}]({channel_username}) ғᴏʀ ᴛʜɪs ɢʀᴏᴜᴘ.\n\n"
-                f"ᴄʜᴀɴɴᴇʟ ɪᴅ: `{channel_id}`\n"
-                f"ᴄʜᴀɴɴᴇʟ ʟɪɴᴋ: [ɢᴇᴛ ʟɪɴᴋ]({channel_link})\n"
+                f"ғᴏʀᴄᴇ sᴜʙsᴄʀɪᴘᴛɪᴏɴ sᴇᴛ ᴛᴏ [{channel_title}](https://t.me/STORM_TECHH) ғᴏʀ ᴛʜɪs ɢʀᴏᴜᴘ.\n\n"
+                f"ᴄʜᴀɴɴᴇʟ ɪᴅ: {channel_id}\n"
+                f"ᴄʜᴀɴɴᴇʟ ʟɪɴᴋ: [ɢᴇᴛ ʟɪɴᴋ](https://t.me/STORM_TECHH)\n"
                 f"ᴍᴇᴍʙᴇʀ ᴄᴏᴜɴᴛ: {channel_members_count}\n"
                 f"sᴇᴛ ʙʏ: {set_by_user}"
             ),
