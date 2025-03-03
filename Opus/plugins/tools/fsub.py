@@ -77,7 +77,7 @@ async def set_forcesub(client: Client, message: Message):
             caption=(
                 f"ғᴏʀᴄᴇ sᴜʙsᴄʀɪᴘᴛɪᴏɴ sᴇᴛ ᴛᴏ {channel_title} ғᴏʀ ᴛʜɪs ɢʀᴏᴜᴘ.\n\n"
                 f"ᴄʜᴀɴɴᴇʟ ɪᴅ: {channel_id}\n"
-                f"ᴄʜᴀɴɴᴇʟ ʟɪɴᴋ: {channel_username}\n"
+                f"ᴄʜᴀɴɴᴇʟ: @{channel_username}\n"
                 f"ᴍᴇᴍʙᴇʀ ᴄᴏᴜɴᴛ: {channel_members_count}\n"
                 f"sᴇᴛ ʙʏ: {set_by_user}"
             ),
