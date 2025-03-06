@@ -8,8 +8,6 @@ from config import LOGGER_ID
 async def play_logs(message, streamtype):
     if await is_on_off(2):
         logger_text = f"""
-<b><u>ᴘʟᴀʏ ʟᴏɢ</u></b>
-
 <blockquote><b>ᴄʜᴀᴛ ɪᴅ :</b> <code>{message.chat.id}</code>
 <b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code></blockquote>
 
