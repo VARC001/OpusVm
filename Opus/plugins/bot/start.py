@@ -42,7 +42,7 @@ async def start_pm(client, message: Message, _):
             if await is_on_off(2):
                 return await app.send_message(
                     chat_id=config.LOGGER_ID,
-                    text=f"<code>{message.from_user.id}</code> ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>sᴜᴅᴏʟɪsᴛ</b>\n\n<b>[ᴜsᴇʀ](https://t.me/{message.from_user.username})</b>",
+                    text=f"<b>» <a href='https://t.me/{message.from_user.username}'>ᴜsᴇʀ</a></b> ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>sᴜᴅᴏʟɪsᴛ</b>",
                 )
             return
         if name[0:3] == "inf":
@@ -80,7 +80,7 @@ async def start_pm(client, message: Message, _):
             if await is_on_off(2):
                 return await app.send_message(
                     chat_id=config.LOGGER_ID,
-                    text=f"<code>{message.from_user.id}</code> ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ</b>\n\n<b>[ᴜsᴇʀ](https://t.me/{message.from_user.username})</b>",
+                    text=f"<b>» <a href='https://t.me/{message.from_user.username}'>ᴜsᴇʀ</a></b> ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ</b>",
                 )
     else:
         out = private_panel(_)
@@ -92,7 +92,7 @@ async def start_pm(client, message: Message, _):
         if await is_on_off(2):
             return await app.send_message(
                 chat_id=config.LOGGER_ID,
-                text=f"<code>{message.from_user.id}</code> ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ.\n\n<b>[ᴜsᴇʀ](https://t.me/{message.from_user.username})</b>",
+                text=f"<b>» <a href='https://t.me/{message.from_user.username}'>ᴜsᴇʀ</a></b> ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ.",
             )
 
 
