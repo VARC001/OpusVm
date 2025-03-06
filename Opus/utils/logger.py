@@ -9,7 +9,8 @@ async def play_logs(message, streamtype):
     if await is_on_off(2):
         logger_text = f"""
 <blockquote><b>ᴄʜᴀᴛ ɪᴅ :</b> <code>{message.chat.id}</code>
-<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code></blockquote>
+<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>
+<b>ᴜsᴇʀɴᴀᴍᴇ : <a href='https://t.me/{message.from_user.username}'>ᴜsᴇʀ</a></b></blockquote>
 
 <blockquote><b><u>sᴛʀᴇᴀᴍᴛʏᴘᴇ : {streamtype}</u></b></blockquote>"""
         if message.chat.id != LOGGER_ID:
