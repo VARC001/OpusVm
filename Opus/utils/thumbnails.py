@@ -53,7 +53,7 @@ def add_border(image, border_width, border_color):
     new_image.paste(image, (border_width, border_width))
     return new_image
 
-def crop_center_circle(img, output_size, border, border_color, crop_scale=1.5):
+def crop_center_square(img, output_size, corner_radius=20, crop_scale=1.5):
     half_the_width = img.size[0] / 2
     half_the_height = img.size[1] / 2
     larger_size = int(output_size * crop_scale)
@@ -66,24 +66,16 @@ def crop_center_circle(img, output_size, border, border_color, crop_scale=1.5):
         )
     )
     
-    img = img.resize((output_size - 2*border, output_size - 2*border))
+    img = img.resize((output_size, output_size))
     
+    # Create a mask with rounded corners
+    mask = Image.new('L', (output_size, output_size), 0)
+    draw = ImageDraw.Draw(mask)
+    draw.rounded_rectangle((0, 0, output_size, output_size), corner_radius, fill=255)
     
-    final_img = Image.new("RGBA", (output_size, output_size), border_color)
-    
-    
-    mask_main = Image.new("L", (output_size - 2*border, output_size - 2*border), 0)
-    draw_main = ImageDraw.Draw(mask_main)
-    draw_main.ellipse((0, 0, output_size - 2*border, output_size - 2*border), fill=255)
-    
-    final_img.paste(img, (border, border), mask_main)
-    
-    
-    mask_border = Image.new("L", (output_size, output_size), 0)
-    draw_border = ImageDraw.Draw(mask_border)
-    draw_border.ellipse((0, 0, output_size, output_size), fill=255)
-    
-    result = Image.composite(final_img, Image.new("RGBA", final_img.size, (0, 0, 0, 0)), mask_border)
+    # Apply the mask to the image
+    result = Image.new('RGBA', (output_size, output_size))
+    result.paste(img, (0, 0), mask)
     
     return result
 
@@ -140,10 +132,8 @@ async def get_thumb(videoid: str):
             else:
                 channel = "Unknown Channel"
 
-        
         async with aiohttp.ClientSession() as session:
             async with session.get(thumbnail) as resp:
-        
                 content = await resp.read()
                 if resp.status == 200:
                     content_type = resp.headers.get('Content-Type')
@@ -159,9 +149,7 @@ async def get_thumb(videoid: str):
                     f = await aiofiles.open(filepath, mode="wb")
                     await f.write(await resp.read())
                     await f.close()
-                    # os.system(f"file {filepath}")
                     
-        
         image_path = f"cache/thumb{videoid}.png"
         youtube = Image.open(image_path)
         image1 = changeImageSize(1280, 720, youtube)
@@ -171,7 +159,6 @@ async def get_thumb(videoid: str):
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
 
-        
         start_gradient_color = random_color()
         end_gradient_color = random_color()
         gradient_image = generate_gradient(1280, 720, start_gradient_color, end_gradient_color)
@@ -182,18 +169,16 @@ async def get_thumb(videoid: str):
         font = ImageFont.truetype("Opus/assets/font.ttf", 30)
         title_font = ImageFont.truetype("Opus/assets/font3.ttf", 45)
 
-
-        circle_thumbnail = crop_center_circle(youtube, 400, 20, start_gradient_color)
-        circle_thumbnail = circle_thumbnail.resize((400, 400))
-        circle_position = (120, 160)
-        background.paste(circle_thumbnail, circle_position, circle_thumbnail)
+        square_thumbnail = crop_center_square(youtube, 400)
+        square_thumbnail = square_thumbnail.resize((400, 400))
+        square_position = (120, 160)
+        background.paste(square_thumbnail, square_position, square_thumbnail)
 
         text_x_position = 565
         title1 = truncate(title)
         draw_text_with_shadow(background, draw, (text_x_position, 180), title1[0], title_font, (255, 255, 255))
         draw_text_with_shadow(background, draw, (text_x_position, 230), title1[1], title_font, (255, 255, 255))
         draw_text_with_shadow(background, draw, (text_x_position, 320), f"{channel}  |  {views[:23]}", arial, (255, 255, 255))
-
 
         line_length = 580  
         line_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
