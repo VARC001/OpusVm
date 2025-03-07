@@ -5,8 +5,7 @@ import random
 import aiofiles
 import aiohttp
 
-from PIL import Image, ImageDraw, ImageEnhance
-from PIL import ImageFilter, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps, ImageFilter
 
 from unidecode import unidecode
 from youtubesearchpython.__future__ import VideosSearch
@@ -76,62 +75,45 @@ async def get_thumb(videoid):
                     await f.write(await resp.read())
                     await f.close()
 
-        # colors = ["white", "red", "orange", "yellow", "green", "cyan", "azure", "blue", "violet", "magenta", "pink"]
-        # border = random.choice(colors)
         youtube = Image.open(f"cache/thumb{videoid}.png")
         image1 = changeImageSize(1280, 720, youtube)
         bg_bright = ImageEnhance.Brightness(image1)
         bg_logo = bg_bright.enhance(1.1)
         bg_contra = ImageEnhance.Contrast(bg_logo)
         bg_logo = bg_contra.enhance(1.1)
-        # logox = ImageOps.expand(bg_logo, border=7, fill=f"{border}")
         background = changeImageSize(1280, 720, bg_logo)
-        # image2 = image1.convert("RGBA")
-        # background = image2.filter(filter=ImageFilter.BoxBlur(1))
-        # enhancer = ImageEnhance.Brightness(background)
-        # background = enhancer.enhance(0.9)
-        # draw = ImageDraw.Draw(background)
-        # arial = ImageFont.truetype("RISHUMUSIC/assets/font2.ttf", 30)
-        # font = ImageFont.truetype("RISHUMUSIC/assets/font.ttf", 30)
-        # draw.text((1110, 8), unidecode(app.name), fill="white", font=arial)
-        """
-        draw.text(
-            (1, 1),
-            f"{channel} | {views[:23]}",
-            (1, 1, 1),
-            font=arial,
-        )
-        draw.text(
-            (1, 1),
-            clear(title),
-            (1, 1, 1),
-            font=font,
-        )
-        draw.line(
-            [(1, 1), (1, 1)],
-            fill="white",
-            width=1,
-            joint="curve",
-        )
-        draw.ellipse(
-            [(1, 1), (2, 1)],
-            outline="white",
-            fill="white",
-            width=1,
-        )
-        draw.text(
-            (1, 1),
-            "00:00",
-            (1, 1, 1),
-            font=arial,
-        )
-        draw.text(
-            (1, 1),
-            f"{duration[:23]}",
-            (1, 1, 1),
-            font=arial,
-        )
-        """
+
+        # Apply a slight blur to the background
+        background = background.filter(ImageFilter.GaussianBlur(1))
+
+        # Create a gradient overlay
+        gradient = Image.new('RGBA', (1280, 720), color=(0, 0, 0, 0))
+        draw = ImageDraw.Draw(gradient)
+        for i in range(720):
+            alpha = int(255 * (i / 720))
+            draw.rectangle((0, i, 1280, i + 1), fill=(0, 0, 0, alpha))
+
+        # Composite the gradient over the background
+        background = Image.alpha_composite(background.convert('RGBA'), gradient)
+
+        # Add text with shadow
+        draw = ImageDraw.Draw(background)
+        title_font = ImageFont.truetype("arial.ttf", 60)
+        info_font = ImageFont.truetype("arial.ttf", 40)
+
+        # Draw title with shadow
+        title_text = clear(title)
+        shadow_color = (0, 0, 0, 128)
+        for offset in [(2, 2), (-2, -2), (2, -2), (-2, 2)]:
+            draw.text((50 + offset[0], 50 + offset[1]), title_text, fill=shadow_color, font=title_font)
+        draw.text((50, 50), title_text, fill="white", font=title_font)
+
+        # Draw channel, views, and duration with shadow
+        info_text = f"{channel} | {views} | {duration}"
+        for offset in [(2, 2), (-2, -2), (2, -2), (-2, 2)]:
+            draw.text((50 + offset[0], 150 + offset[1]), info_text, fill=shadow_color, font=info_font)
+        draw.text((50, 150), info_text, fill="white", font=info_font)
+
         try:
             os.remove(f"cache/thumb{videoid}.png")
         except:
