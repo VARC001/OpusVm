@@ -169,16 +169,18 @@ async def get_thumb(videoid: str):
         font = ImageFont.truetype("Opus/assets/font.ttf", 30)
         title_font = ImageFont.truetype("Opus/assets/font3.ttf", 45)
 
-        square_thumbnail = crop_center_square(youtube, 400)
-        square_thumbnail = square_thumbnail.resize((400, 400))
-        square_position = (120, 160)
+        # Increase the size of the square thumbnail and center it
+        square_thumbnail = crop_center_square(youtube, 500)  # Increased size to 500x500
+        square_thumbnail = square_thumbnail.resize((500, 500))
+        square_position = ((1280 - 500) // 2, (720 - 500) // 2 - 50)  # Centered position
         background.paste(square_thumbnail, square_position, square_thumbnail)
 
-        text_x_position = 565
+        # Move the title, channel, views, and duration to the footer
+        text_x_position = (1280 - 580) // 2  # Center the text
         title1 = truncate(title)
-        draw_text_with_shadow(background, draw, (text_x_position, 180), title1[0], title_font, (255, 255, 255))
-        draw_text_with_shadow(background, draw, (text_x_position, 230), title1[1], title_font, (255, 255, 255))
-        draw_text_with_shadow(background, draw, (text_x_position, 320), f"{channel}  |  {views[:23]}", arial, (255, 255, 255))
+        draw_text_with_shadow(background, draw, (text_x_position, 600), title1[0], title_font, (255, 255, 255))
+        draw_text_with_shadow(background, draw, (text_x_position, 650), title1[1], title_font, (255, 255, 255))
+        draw_text_with_shadow(background, draw, (text_x_position, 700), f"{channel}  |  {views[:23]}", arial, (255, 255, 255))
 
         line_length = 580  
         line_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
@@ -188,12 +190,12 @@ async def get_thumb(videoid: str):
             color_line_length = int(line_length * color_line_percentage)
             white_line_length = line_length - color_line_length
 
-            start_point_color = (text_x_position, 380)
-            end_point_color = (text_x_position + color_line_length, 380)
+            start_point_color = (text_x_position, 730)
+            end_point_color = (text_x_position + color_line_length, 730)
             draw.line([start_point_color, end_point_color], fill=line_color, width=9)
         
-            start_point_white = (text_x_position + color_line_length, 380)
-            end_point_white = (text_x_position + line_length, 380)
+            start_point_white = (text_x_position + color_line_length, 730)
+            end_point_white = (text_x_position + line_length, 730)
             draw.line([start_point_white, end_point_white], fill="white", width=8)
         
             circle_radius = 10 
@@ -203,8 +205,8 @@ async def get_thumb(videoid: str):
     
         else:
             line_color = (255, 0, 0)
-            start_point_color = (text_x_position, 380)
-            end_point_color = (text_x_position + line_length, 380)
+            start_point_color = (text_x_position, 730)
+            end_point_color = (text_x_position + line_length, 730)
             draw.line([start_point_color, end_point_color], fill=line_color, width=9)
         
             circle_radius = 10 
@@ -212,12 +214,12 @@ async def get_thumb(videoid: str):
             draw.ellipse([circle_position[0] - circle_radius, circle_position[1] - circle_radius,
                           circle_position[0] + circle_radius, circle_position[1] + circle_radius], fill=line_color)
 
-        draw_text_with_shadow(background, draw, (text_x_position, 400), "00:00", arial, (255, 255, 255))
-        draw_text_with_shadow(background, draw, (1080, 400), duration, arial, (255, 255, 255))
+        draw_text_with_shadow(background, draw, (text_x_position, 750), "00:00", arial, (255, 255, 255))
+        draw_text_with_shadow(background, draw, (text_x_position + line_length - 50, 750), duration, arial, (255, 255, 255))
         
         play_icons = Image.open("Opus/assets/play_icons.png")
         play_icons = play_icons.resize((580, 62))
-        background.paste(play_icons, (text_x_position, 450), play_icons)
+        background.paste(play_icons, (text_x_position, 780), play_icons)
 
         os.remove(f"cache/thumb{videoid}.png")
 
