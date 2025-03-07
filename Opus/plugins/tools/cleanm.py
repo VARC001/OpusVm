@@ -1,4 +1,4 @@
-import asyncio
+"""import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from Opus import app 
@@ -29,7 +29,7 @@ async def handle_media(client: Client, message: Message):
 
     if chat_id in delay_times:
         delay = delay_times[chat_id]
-        await asyncio.sleep(delay * 60)
+        await asyncio.sleep(delay * 60)"""
 
         try:
             await message.delete()
