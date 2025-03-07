@@ -132,5 +132,3 @@ async def is_admin(message: Message):
     admins = await app.get_chat_members(chat_id, filter="administrators")
     return any(admin.user.id == user_id for admin in admins)
 
-# Run the bot
-app.run()
