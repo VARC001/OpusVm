@@ -11,7 +11,7 @@ auth_collection = db["auth_users"]
 delay_collection = db["delay_times"]
 
 # Command to authorize a user in a group
-@app.on_message(filters.command("auth") & filters.group)
+@app.on_message(filters.command("mauth") & filters.group)
 async def authorize_user(client: Client, message: Message):
     # Check if the command is used by an admin
     if not await is_admin(message):
@@ -35,7 +35,7 @@ async def authorize_user(client: Client, message: Message):
     await message.reply(f"User {user_id} has been authorized in this group.")
 
 # Command to unauthorize a user in a group
-@app.on_message(filters.command("unauth") & filters.group)
+@app.on_message(filters.command("munauth") & filters.group)
 async def unauthorize_user(client: Client, message: Message):
     # Check if the command is used by an admin
     if not await is_admin(message):
@@ -58,7 +58,7 @@ async def unauthorize_user(client: Client, message: Message):
     await message.reply(f"User {user_id} has been unauthorized in this group.")
 
 # Command to list authorized users in a group
-@app.on_message(filters.command("authuserslist") & filters.group)
+@app.on_message(filters.command("mauthuserslist") & filters.group)
 async def list_auth_users(client: Client, message: Message):
     chat_id = message.chat.id
     auth_data = auth_collection.find_one({"chat_id": chat_id})
