@@ -115,7 +115,7 @@ async def get_thumb(videoid):
         box_width = 600
         box_height = 600
         box_x = (1280 - box_width) // 2  # Centered horizontally
-        box_y = (720 - box_height) // 2  # Centered vertically
+        box_y = (720 - box_height) // 2 - 50  # Slightly above center to make space for title
         
         # Create a mask for the box (square-edged, no rounded corners)
         box_image = youtube.copy()
@@ -124,15 +124,6 @@ async def get_thumb(videoid):
         # Enhance the clarity of the box image
         clarity_enhancer = ImageEnhance.Contrast(box_image)
         box_image = clarity_enhancer.enhance(1.1)  # Slightly increase contrast
-        
-        # Add a music disc behind the box
-        disc_size = 700
-        disc_image = Image.new('RGBA', (disc_size, disc_size), (0, 0, 0, 0))
-        draw_disc = ImageDraw.Draw(disc_image)
-        draw_disc.ellipse((0, 0, disc_size, disc_size), fill=(50, 50, 50, 200))
-        disc_x = (1280 - disc_size) // 2
-        disc_y = (720 - disc_size) // 2
-        final_image.paste(disc_image, (disc_x, disc_y), disc_image)
         
         # Paste the box image
         final_image.paste(box_image, (box_x, box_y))
@@ -147,17 +138,17 @@ async def get_thumb(videoid):
             width=border_width
         )
         
-        # Add title text at the bottom
+        # Add title text under the box
         try:
             title_font = ImageFont.truetype("arial.ttf", 60)
         except:
             title_font = ImageFont.load_default()
         
-        # Position for the title (bottom of the image)
+        # Position for the title (under the box)
         title_text = clear(title).upper()
         title_width, title_height = title_font.getsize(title_text)
         title_x = (1280 - title_width) // 2
-        title_y = 720 - 100
+        title_y = box_y + box_height + 20  # 20px below the box
         
         # Draw the title with a shadow effect
         # First draw shadow
