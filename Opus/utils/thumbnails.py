@@ -170,7 +170,7 @@ async def get_thumb(videoid: str):
         title_font = ImageFont.truetype("Opus/assets/font3.ttf", 45)
 
         square_thumbnail = crop_center_square(youtube, 500)
-        square_thumbnail = square_thumbnail.resize((400, 400))
+        square_thumbnail = square_thumbnail.resize((500, 500))
         square_position = (120, 160)
         background.paste(square_thumbnail, square_position, square_thumbnail)
 
