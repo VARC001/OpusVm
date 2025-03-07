@@ -53,27 +53,6 @@ def add_border(image, border_width, border_color):
     new_image.paste(image, (border_width, border_width))
     return new_image
 
-def crop_center_rectangle(img, output_size, border, border_color, crop_scale=1.5):
-    half_the_width = img.size[0] / 2
-    half_the_height = img.size[1] / 2
-    larger_size = int(output_size * crop_scale)
-    img = img.crop(
-        (
-            half_the_width - larger_size/2,
-            half_the_height - larger_size/2,
-            half_the_width + larger_size/2,
-            half_the_height + larger_size/2
-        )
-    )
-    
-    img = img.resize((output_size - 2*border, output_size - 2*border))
-    
-    final_img = Image.new("RGBA", (output_size, output_size), border_color)
-    
-    final_img.paste(img, (border, border))
-    
-    return final_img
-
 def draw_text_with_shadow(background, draw, position, text, font, fill, shadow_offset=(3, 3), shadow_blur=5):
     shadow = Image.new('RGBA', background.size, (0, 0, 0, 0))
     shadow_draw = ImageDraw.Draw(shadow)
@@ -155,51 +134,23 @@ async def get_thumb(videoid: str):
         font = ImageFont.truetype("Opus/assets/font.ttf", 30)
         title_font = ImageFont.truetype("Opus/assets/font3.ttf", 45)
 
-        rectangle_thumbnail = crop_center_rectangle(youtube, 400, 20, start_gradient_color)
-        rectangle_thumbnail = rectangle_thumbnail.resize((400, 400))
-        rectangle_position = (440, 50)
-        background.paste(rectangle_thumbnail, rectangle_position)
+        # Create a box for the thumbnail
+        box_size = (400, 400)
+        box_position = (440, 50)
+        box = Image.new("RGBA", box_size, (0, 0, 0, 128))
+        background.paste(box, box_position, box)
 
+        # Paste the thumbnail inside the box
+        thumbnail_resized = image1.resize((380, 380))
+        background.paste(thumbnail_resized, (box_position[0] + 10, box_position[1] + 10))
+
+        # Add title and other information
         title1 = truncate(title)
         draw_text_with_shadow(background, draw, (50, 500), title1[0], title_font, (255, 255, 255))
         draw_text_with_shadow(background, draw, (50, 550), title1[1], title_font, (255, 255, 255))
         draw_text_with_shadow(background, draw, (50, 600), f"{channel}  |  {views[:23]}", arial, (255, 255, 255))
 
-        line_length = 1180  
-        line_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-
-        if duration != "Live":
-            color_line_percentage = random.uniform(0.15, 0.85)
-            color_line_length = int(line_length * color_line_percentage)
-            white_line_length = line_length - color_line_length
-
-            start_point_color = (50, 650)
-            end_point_color = (50 + color_line_length, 650)
-            draw.line([start_point_color, end_point_color], fill=line_color, width=9)
-        
-            start_point_white = (50 + color_line_length, 650)
-            end_point_white = (50 + line_length, 650)
-            draw.line([start_point_white, end_point_white], fill="white", width=8)
-        
-            circle_radius = 10 
-            circle_position = (end_point_color[0], end_point_color[1])
-            draw.ellipse([circle_position[0] - circle_radius, circle_position[1] - circle_radius,
-                      circle_position[0] + circle_radius, circle_position[1] + circle_radius], fill=line_color)
-    
-        else:
-            line_color = (255, 0, 0)
-            start_point_color = (50, 650)
-            end_point_color = (50 + line_length, 650)
-            draw.line([start_point_color, end_point_color], fill=line_color, width=9)
-        
-            circle_radius = 10 
-            circle_position = (end_point_color[0], end_point_color[1])
-            draw.ellipse([circle_position[0] - circle_radius, circle_position[1] - circle_radius,
-                          circle_position[0] + circle_radius, circle_position[1] + circle_radius], fill=line_color)
-
-        draw_text_with_shadow(background, draw, (50, 670), "00:00", arial, (255, 255, 255))
-        draw_text_with_shadow(background, draw, (1130, 670), duration, arial, (255, 255, 255))
-        
+        # Add play icons
         play_icons = Image.open("Opus/assets/play_icons.png")
         play_icons = play_icons.resize((1180, 62))
         background.paste(play_icons, (50, 700), play_icons)
