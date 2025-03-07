@@ -21,10 +21,9 @@ from Opus.utils.decorators.language import languageCB
 from Opus.utils.formatters import seconds_to_min
 from Opus.utils.inline import close_markup, stream_markup, stream_markup_timer
 from Opus.utils.stream.autoclear import auto_clean
-from Opus.utils.thumbnails import get_thumb
+from Opus.utils.thumbnails import gen_thumb
 from config import (
     BANNED_USERS,
-    SUPPORT_CHAT,
     SOUNCLOUD_IMG_URL,
     STREAM_IMG_URL,
     TELEGRAM_AUDIO_URL,
@@ -34,6 +33,7 @@ from config import (
     votemode,
 )
 from strings import get_string
+import config
 
 checker = {}
 upvoters = {}
@@ -136,7 +136,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             return await CallbackQuery.answer(_["admin_1"], show_alert=True)
         await CallbackQuery.answer()
         await music_off(chat_id)
-        await Anony.pause_stream(chat_id)
+        await AMBOT.pause_stream(chat_id)
         await CallbackQuery.message.reply_text(
             _["admin_2"].format(mention), reply_markup=close_markup(_)
         )
@@ -145,13 +145,13 @@ async def del_back_playlist(client, CallbackQuery, _):
             return await CallbackQuery.answer(_["admin_3"], show_alert=True)
         await CallbackQuery.answer()
         await music_on(chat_id)
-        await Anony.resume_stream(chat_id)
+        await AMBOT.resume_stream(chat_id)
         await CallbackQuery.message.reply_text(
             _["admin_4"].format(mention), reply_markup=close_markup(_)
         )
     elif command == "Stop" or command == "End":
         await CallbackQuery.answer()
-        await Anony.stop_stream(chat_id)
+        await AMBOT.stop_stream(chat_id)
         await set_loop(chat_id, 0)
         await CallbackQuery.message.reply_text(
             _["admin_5"].format(mention), reply_markup=close_markup(_)
@@ -177,7 +177,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         reply_markup=close_markup(_),
                     )
                     try:
-                        return await Anony.stop_stream(chat_id)
+                        return await AMBOT.stop_stream(chat_id)
                     except:
                         return
             except:
@@ -191,7 +191,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                         ),
                         reply_markup=close_markup(_),
                     )
-                    return await Anony.stop_stream(chat_id)
+                    return await AMBOT.stop_stream(chat_id)
                 except:
                     return
         else:
@@ -223,11 +223,11 @@ async def del_back_playlist(client, CallbackQuery, _):
             except:
                 image = None
             try:
-                await Anony.skip_stream(chat_id, link, video=status, image=image)
+                await AMBOT.skip_stream(chat_id, link, video=status, image=image)
             except:
                 return await CallbackQuery.message.reply_text(_["call_6"])
             button = stream_markup(_, chat_id)
-            img = await get_thumb(videoid)
+            img = await gen_thumb(videoid)
             run = await CallbackQuery.message.reply_photo(
                 photo=img,
                 caption=_["stream_1"].format(
@@ -259,11 +259,11 @@ async def del_back_playlist(client, CallbackQuery, _):
             except:
                 image = None
             try:
-                await Anony.skip_stream(chat_id, file_path, video=status, image=image)
+                await AMBOT.skip_stream(chat_id, file_path, video=status, image=image)
             except:
                 return await mystic.edit_text(_["call_6"])
             button = stream_markup(_, chat_id)
-            img = await get_thumb(videoid)
+            img = await gen_thumb(videoid)
             run = await CallbackQuery.message.reply_photo(
                 photo=img,
                 caption=_["stream_1"].format(
@@ -280,7 +280,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             await mystic.delete()
         elif "index_" in queued:
             try:
-                await Anony.skip_stream(chat_id, videoid, video=status)
+                await AMBOT.skip_stream(chat_id, videoid, video=status)
             except:
                 return await CallbackQuery.message.reply_text(_["call_6"])
             button = stream_markup(_, chat_id)
@@ -303,7 +303,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                 except:
                     image = None
             try:
-                await Anony.skip_stream(chat_id, queued, video=status, image=image)
+                await AMBOT.skip_stream(chat_id, queued, video=status, image=image)
             except:
                 return await CallbackQuery.message.reply_text(_["call_6"])
             if videoid == "telegram":
@@ -313,7 +313,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                     if str(streamtype) == "audio"
                     else TELEGRAM_VIDEO_URL,
                     caption=_["stream_1"].format(
-                        SUPPORT_CHAT, title[:23], duration, user
+                        config.SUPPORT_GROUP, title[:23], duration, user
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -326,7 +326,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                     if str(streamtype) == "audio"
                     else TELEGRAM_VIDEO_URL,
                     caption=_["stream_1"].format(
-                        SUPPORT_CHAT, title[:23], duration, user
+                        config.SUPPORT_GROUP, title[:23], duration, user
                     ),
                     reply_markup=InlineKeyboardMarkup(button),
                 )
@@ -334,7 +334,7 @@ async def del_back_playlist(client, CallbackQuery, _):
                 db[chat_id][0]["markup"] = "tg"
             else:
                 button = stream_markup(_, chat_id)
-                img = await get_thumb(videoid)
+                img = await gen_thumb(videoid)
                 run = await CallbackQuery.message.reply_photo(
                     photo=img,
                     caption=_["stream_1"].format(
