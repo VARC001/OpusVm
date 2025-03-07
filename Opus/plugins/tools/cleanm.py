@@ -21,7 +21,9 @@ async def set_delay(client: Client, message: Message):
         await message.reply("ᴜꜱᴀɢᴇ: /setdelay 5")
 
 @app.on_message(filters.group & ~filters.poll & (
-    filters.photo | filters.video | filters.video_note | filters.audio | filters.voice | filters.document | filters.sticker | filters.animation | filters.media_group
+    filters.photo | filters.video | filters.video_note | filters.audio | 
+    filters.voice | filters.document | filters.sticker | filters.animation | 
+    filters.media_group | filters.gif
 ))
 async def handle_media(client: Client, message: Message):
     chat_id = message.chat.id
