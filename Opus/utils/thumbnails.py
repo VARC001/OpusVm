@@ -1,7 +1,6 @@
 import os
 import re
 import random
-from io import BytesIO
 
 import aiofiles
 import aiohttp
@@ -36,7 +35,6 @@ def clear(text):
 
 def get_dominant_color(image):
     """Extract the dominant color from an image"""
-    # Resize image to speed up processing
     img = image.copy()
     img.thumbnail((100, 100))
     
@@ -50,51 +48,6 @@ def get_dominant_color(image):
     avg_color = np.mean(pixels, axis=0).astype(int)
     
     return tuple(avg_color)
-
-
-def create_play_button(size, color=(255, 255, 255, 180)):
-    """Create a play button icon"""
-    play_button = Image.new('RGBA', size, (0, 0, 0, 0))
-    draw = ImageDraw.Draw(play_button)
-    
-    # Draw a triangle for the play button
-    width, height = size
-    margin = width // 4
-    points = [
-        (margin, margin),
-        (width - margin, height // 2),
-        (margin, height - margin)
-    ]
-    draw.polygon(points, fill=color)
-    
-    return play_button
-
-
-def create_duration_bar(width, height, duration_text, color=(255, 255, 255, 180)):
-    """Create a duration bar with text"""
-    bar = Image.new('RGBA', (width, height), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(bar)
-    
-    # Draw the progress bar background
-    draw.rectangle([(0, 0), (width, height)], fill=(0, 0, 0, 100), outline=None)
-    
-    # Draw the progress (just for visual, not actual progress)
-    progress_width = int(width * 0.7)  # 70% progress for visual effect
-    draw.rectangle([(0, 0), (progress_width, height)], fill=(255, 255, 255, 100), outline=None)
-    
-    # Add duration text if provided
-    if duration_text:
-        # Try to load font, use default if not available
-        try:
-            font = ImageFont.truetype("arial.ttf", height - 4)
-        except:
-            font = ImageFont.load_default()
-            
-        # Position text at the right end
-        text_width = draw.textlength(duration_text, font=font)
-        draw.text((width - text_width - 10, 2), duration_text, fill=(255, 255, 255, 230), font=font)
-    
-    return bar
 
 
 async def get_qthumb(videoid):
@@ -153,84 +106,140 @@ async def get_thumb(videoid):
         dominant_color = get_dominant_color(youtube)
         
         # Create the base canvas (1280x720)
-        final_image = Image.new('RGBA', (1280, 720), (0, 0, 0, 255))
+        final_image = Image.new('RGB', (1280, 720), (0, 0, 0))
         
-        # Resize the original for background
-        bg_image = changeImageSize(1400, 800, youtube)
+        # Create a heavily blurred background
+        # First, resize the original image to be larger than the canvas
+        bg_image = changeImageSize(1600, 900, youtube)
         
-        # Apply blur to background
-        blurred_bg = bg_image.filter(ImageFilter.GaussianBlur(radius=15))
+        # Apply strong blur to background (higher radius for more blur)
+        blurred_bg = bg_image.filter(ImageFilter.GaussianBlur(radius=40))
+        
+        # Enhance the colors of the blurred background
+        color_enhancer = ImageEnhance.Color(blurred_bg)
+        blurred_bg = color_enhancer.enhance(1.4)  # Increase color saturation
         
         # Darken the background
-        enhancer = ImageEnhance.Brightness(blurred_bg)
-        darkened_bg = enhancer.enhance(0.6)
+        brightness_enhancer = ImageEnhance.Brightness(blurred_bg)
+        darkened_bg = brightness_enhancer.enhance(0.6)  # Darken to 60% brightness
         
-        # Paste the blurred background
-        final_image.paste(darkened_bg, (-60, -40))
+        # Paste the blurred background (centered)
+        bg_x = (1280 - 1600) // 2
+        bg_y = (720 - 900) // 2
+        final_image.paste(darkened_bg, (bg_x, bg_y))
         
-        # Create a center rectangle for the clear image
-        center_width, center_height = 800, 450
-        center_x = (1280 - center_width) // 2
-        center_y = (720 - center_height) // 2
+        # Create a square-edged box for the main content in the center
+        box_width = 700
+        box_height = 450
+        box_x = (1280 - box_width) // 2  # Centered horizontally
+        box_y = 80  # Position at the top with some margin
         
-        # Create a mask for rounded corners
-        mask = Image.new('L', (center_width, center_height), 0)
-        draw_mask = ImageDraw.Draw(mask)
-        radius = 20  # Corner radius
-        draw_mask.rounded_rectangle([(0, 0), (center_width, center_height)], radius, fill=255)
+        # Create a mask for the box (square-edged, no rounded corners)
+        box_image = youtube.copy()
+        box_image = changeImageSize(box_width, box_height, box_image)
         
-        # Create the center image container
-        center_container = Image.new('RGBA', (center_width, center_height), (0, 0, 0, 0))
+        # Enhance the clarity of the box image
+        clarity_enhancer = ImageEnhance.Contrast(box_image)
+        box_image = clarity_enhancer.enhance(1.2)  # Increase contrast
         
-        # Resize the original image to fit the center container
-        center_image = changeImageSize(center_width, center_height, youtube)
+        # Paste the box image
+        final_image.paste(box_image, (box_x, box_y))
         
-        # Apply the mask for rounded corners
-        center_container.paste(center_image, (0, 0), mask)
-        
-        # Add a subtle border
-        border_color = (*dominant_color, 150)  # Use dominant color with transparency
-        border_width = 4
+        # Add a border to the box
         draw = ImageDraw.Draw(final_image)
-        draw.rounded_rectangle(
-            [(center_x-border_width, center_y-border_width), 
-             (center_x+center_width+border_width, center_y+center_height+border_width)],
-            radius=radius+border_width,
+        border_color = (255, 255, 255)  # White border
+        border_width = 3
+        draw.rectangle(
+            [(box_x, box_y), (box_x + box_width, box_y + box_height)],
             outline=border_color,
             width=border_width
         )
         
-        # Paste the center container onto the final image
-        final_image.paste(center_container, (center_x, center_y), mask)
-        
-        # Add play button in the center
-        play_button_size = 100
-        play_button = create_play_button((play_button_size, play_button_size))
-        play_button_x = (1280 - play_button_size) // 2
-        play_button_y = (720 - play_button_size) // 2
-        final_image.paste(play_button, (play_button_x, play_button_y), play_button)
-        
-        # Add duration bar at the bottom of the center container
-        duration_bar_height = 20
-        duration_bar = create_duration_bar(center_width, duration_bar_height, duration)
-        final_image.paste(duration_bar, (center_x, center_y + center_height - duration_bar_height), duration_bar)
-        
-        # Add title text
-        try:
-            font = ImageFont.truetype("arial.ttf", 24)
-        except:
-            font = ImageFont.load_default()
+        # Add duration in the corner of the video box
+        if duration != "Unknown Mins":
+            duration_x = box_x + 10
+            duration_y = box_y + 10
             
-        title_y = center_y + center_height + 20
-        draw.text((center_x, title_y), clear(title), fill=(255, 255, 255, 230), font=font)
+            # Create a semi-transparent background for the duration
+            duration_bg_width = 80
+            duration_bg_height = 30
+            duration_overlay = Image.new('RGBA', (duration_bg_width, duration_bg_height), (0, 0, 0, 200))
+            duration_overlay = duration_overlay.convert('RGB')
+            final_image.paste(duration_overlay, (duration_x, duration_y))
+            
+            # Add the duration text
+            try:
+                duration_font = ImageFont.truetype("arial.ttf", 20)
+            except:
+                duration_font = ImageFont.load_default()
+                
+            draw.text((duration_x + 10, duration_y + 5), duration, fill=(255, 255, 255), font=duration_font)
         
-        # Add channel and views
-        info_y = title_y + 30
-        channel_views = f"{channel} • {views}"
-        draw.text((center_x, info_y), channel_views, fill=(200, 200, 200, 200), font=font)
+        # Create a semi-transparent overlay for the bottom text area
+        overlay_height = 180
+        overlay = Image.new('RGBA', (1280, overlay_height), (0, 0, 0, 180))
+        overlay = overlay.convert('RGB')
+        final_image.paste(overlay, (0, 720 - overlay_height))
         
-        # Convert to RGB for saving as PNG
-        final_image = final_image.convert('RGB')
+        # Add title text at the bottom
+        try:
+            title_font = ImageFont.truetype("arial.ttf", 50)
+            subtitle_font = ImageFont.truetype("arial.ttf", 30)
+            views_font = ImageFont.truetype("arial.ttf", 40)
+        except:
+            title_font = ImageFont.load_default()
+            subtitle_font = title_font
+            views_font = title_font
+        
+        # Position for the title (bottom of the image)
+        title_x = 40
+        title_y = 720 - overlay_height + 20
+        
+        # Make title uppercase for impact
+        title_text = clear(title).upper()
+        
+        # Draw the title with a shadow effect
+        # First draw shadow
+        shadow_offset = 2
+        draw.text((title_x + shadow_offset, title_y + shadow_offset), title_text, 
+                 fill=(0, 0, 0), font=title_font)
+        # Then draw text
+        draw.text((title_x, title_y), title_text, fill=(255, 255, 255), font=title_font)
+        
+        # Add view count on the right side
+        if views != "Unknown Views":
+            view_text = f"{views}"
+            if "M" in views:  # If it's in millions
+                view_text = f"{views.replace('M', '')} MILLION+"
+            elif "K" in views:  # If it's in thousands
+                view_text = f"{views.replace('K', '')} THOUSAND+"
+            
+            # Calculate position to align right
+            view_width = draw.textlength(view_text, font=views_font)
+            view_x = 1280 - view_width - 40  # Right aligned with margin
+            view_y = 720 - overlay_height + 20
+            
+            # Draw views with shadow
+            draw.text((view_x + shadow_offset, view_y + shadow_offset), view_text, 
+                     fill=(0, 0, 0), font=views_font)
+            draw.text((view_x, view_y), view_text, fill=(255, 255, 255), font=views_font)
+            
+            # Add "VIEWS" text below
+            views_label = "VIEWS"
+            views_label_width = draw.textlength(views_label, font=subtitle_font)
+            views_label_x = 1280 - views_label_width - 40  # Right aligned
+            
+            draw.text((views_label_x + shadow_offset, view_y + 50 + shadow_offset), 
+                     views_label, fill=(0, 0, 0), font=subtitle_font)
+            draw.text((views_label_x, view_y + 50), 
+                     views_label, fill=(255, 255, 255), font=subtitle_font)
+        
+        # Add channel name at the bottom
+        channel_y = 720 - 50
+        draw.text((title_x + shadow_offset, channel_y + shadow_offset), 
+                 channel, fill=(0, 0, 0), font=subtitle_font)
+        draw.text((title_x, channel_y), 
+                 channel, fill=(200, 200, 200), font=subtitle_font)
         
         try:
             os.remove(f"cache/thumb{videoid}.png")
