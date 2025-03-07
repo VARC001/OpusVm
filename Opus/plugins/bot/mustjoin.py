@@ -41,7 +41,7 @@ OPUS = [
 
 MUST_JOIN = "STORM_TECHH"
 #------------------------
-@app.on_message(filters.incoming & (filters.private | filters.group | filters.channel), group=-1)
+@app.on_message(filters.incoming & (filters.private), group=-1)
 async def must_join_channel(app: Client, msg: Message):
     if not MUST_JOIN:
         return
