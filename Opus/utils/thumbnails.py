@@ -53,7 +53,7 @@ def add_border(image, border_width, border_color):
     new_image.paste(image, (border_width, border_width))
     return new_image
 
-def crop_center_square(img, output_size, corner_radius=25, crop_scale=1.5):
+def crop_center_square(img, output_size, corner_radius=30, crop_scale=1.5):
     half_the_width = img.size[0] / 2
     half_the_height = img.size[1] / 2
     larger_size = int(output_size * crop_scale)
@@ -155,7 +155,7 @@ async def get_thumb(videoid: str):
         image1 = changeImageSize(1280, 720, youtube)
         
         image2 = image1.convert("RGBA")
-        background = image2.filter(filter=ImageFilter.BoxBlur(30))
+        background = image2.filter(filter=ImageFilter.BoxBlur(50))
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
 
@@ -169,7 +169,7 @@ async def get_thumb(videoid: str):
         font = ImageFont.truetype("Opus/assets/font.ttf", 30)
         title_font = ImageFont.truetype("Opus/assets/font3.ttf", 45)
 
-        square_thumbnail = crop_center_square(youtube, 450)
+        square_thumbnail = crop_center_square(youtube, 500)
         square_thumbnail = square_thumbnail.resize((400, 400))
         square_position = (120, 160)
         background.paste(square_thumbnail, square_position, square_thumbnail)
