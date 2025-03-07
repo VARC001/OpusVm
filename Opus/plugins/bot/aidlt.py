@@ -10,6 +10,7 @@ db = mongo_client["auto_delete_bot"]
 auth_collection = db["auth_users"]
 delay_collection = db["delay_times"]
 
+
 # Command to authorize a user in a group
 @app.on_message(filters.command("mauth") & filters.group)
 async def authorize_user(client: Client, message: Message):
@@ -104,9 +105,12 @@ async def set_delay(client: Client, message: Message):
 async def handle_media(client: Client, message: Message):
     chat_id = message.chat.id
 
-    # Check if the user is a group admin
-    if await is_admin(message):
-        return  # Skip deletion for admins
+    # Check if the user is authorized
+    auth_data = auth_collection.find_one({"chat_id": chat_id})
+    if auth_data and "user_ids" in auth_data:
+        user_id = message.from_user.id
+        if user_id not in auth_data["user_ids"]:
+            return  # Ignore media from unauthorized users
 
     # Get the delay time for this group
     delay_data = delay_collection.find_one({"chat_id": chat_id})
@@ -127,3 +131,6 @@ async def is_admin(message: Message):
     user_id = message.from_user.id
     admins = await app.get_chat_members(chat_id, filter="administrators")
     return any(admin.user.id == user_id for admin in admins)
+
+# Run the bot
+app.run()
