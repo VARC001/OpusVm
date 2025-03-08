@@ -54,7 +54,7 @@ def add_border(image, border_width, border_color):
     new_image.paste(image, (border_width, border_width))
     return new_image
 
-def crop_center_square(img, output_size, corner_radius=30, crop_scale=1.5):
+def crop_center_square(img, output_size, corner_radius=40, crop_scale=1.5):
     half_the_width = img.size[0] / 2
     half_the_height = img.size[1] / 2
     larger_size = int(output_size * crop_scale)
@@ -177,7 +177,7 @@ async def get_thumb(videoid: str):
         draw_text_with_shadow(background, draw, (text_x_position, 320), f"{channel}  |  {views[:23]}", arial, (255, 255, 255))
 
         line_length = 580  
-        line_color = random_color()
+        line_color = (255, 255, 255)
 
         if duration != "Live":
             color_line_percentage = random.uniform(0.15, 0.85)
@@ -198,7 +198,7 @@ async def get_thumb(videoid: str):
                       circle_position[0] + circle_radius, circle_position[1] + circle_radius], fill=line_color)
     
         else:
-            line_color = (255, 0, 0)
+            line_color = (255, 255, 255)
             start_point_color = (text_x_position, 380)
             end_point_color = (text_x_position + line_length, 380)
             draw.line([start_point_color, end_point_color], fill=line_color, width=9)
@@ -211,7 +211,7 @@ async def get_thumb(videoid: str):
         draw_text_with_shadow(background, draw, (text_x_position, 400), "00:00", arial, (255, 255, 255))
         draw_text_with_shadow(background, draw, (1080, 400), duration, arial, (255, 255, 255))
         
-        play_icons = Image.open("Opus/assets/icons.png")
+        play_icons = Image.open("Opus/resources/new.png")
         play_icons = play_icons.resize((580, 62))
         background.paste(play_icons, (text_x_position, 450), play_icons)
 
