@@ -32,17 +32,18 @@ def truncate(text):
     return [text1,text2]
 
 def random_color():
-    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
 
-def generate_gradient(width, height, start_color, end_color):
-    base = Image.new('RGBA', (width, height), start_color)
-    top = Image.new('RGBA', (width, height), end_color)
-    mask = Image.new('L', (width, height))
-    mask_data = []
-    for y in range(height):
-        mask_data.extend([int(60 * (y / height))] * width)
-    mask.putdata(mask_data)
-    base.paste(top, (0, 0), mask)
+def generate_gradient(width, height, colors):
+    base = Image.new('RGBA', (width, height), colors[0])
+    for i in range(1, len(colors)):
+        overlay = Image.new('RGBA', (width, height), colors[i])
+        mask = Image.new('L', (width, height))
+        mask_data = []
+        for y in range(height):
+            mask_data.extend([int(255 * (y / height))] * width)
+        mask.putdata(mask_data)
+        base.paste(overlay, (0, 0), mask)
     return base
 
 def add_border(image, border_width, border_color):
@@ -80,20 +81,11 @@ def crop_center_square(img, output_size, corner_radius=30, crop_scale=1.5):
     return result
 
 def draw_text_with_shadow(background, draw, position, text, font, fill, shadow_offset=(3, 3), shadow_blur=5):
-    
     shadow = Image.new('RGBA', background.size, (0, 0, 0, 0))
     shadow_draw = ImageDraw.Draw(shadow)
-    
-    
     shadow_draw.text(position, text, font=font, fill="black")
-    
-    
     shadow = shadow.filter(ImageFilter.GaussianBlur(radius=shadow_blur))
-    
-    
     background.paste(shadow, shadow_offset, shadow)
-    
-    
     draw.text(position, text, font=font, fill=fill)
 
 async def get_thumb(videoid: str):
@@ -159,10 +151,14 @@ async def get_thumb(videoid: str):
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
 
-        start_gradient_color = random_color()
-        end_gradient_color = random_color()
-        gradient_image = generate_gradient(1280, 720, start_gradient_color, end_gradient_color)
-        background = Image.blend(background, gradient_image, alpha=0.2)
+        # Use a multi-color gradient for a more aesthetic look
+        gradient_colors = [
+            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
+            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
+            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        ]
+        gradient_image = generate_gradient(1280, 720, gradient_colors)
+        background = Image.blend(background, gradient_image, alpha=0.3)
         
         draw = ImageDraw.Draw(background)
         arial = ImageFont.truetype("Opus/assets/font2.ttf", 30)
