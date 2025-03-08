@@ -144,7 +144,7 @@ async def get_thumb(videoid: str):
                     
         image_path = f"cache/thumb{videoid}.png"
         youtube = Image.open(image_path)
-        image1 = changeImageSize(1280, 720, youtube)
+        image1 = changeImageSize(400, 225, youtube)
         
         image2 = image1.convert("RGBA")
         background = image2.filter(filter=ImageFilter.BoxBlur(50))
