@@ -32,7 +32,7 @@ def truncate(text):
     return [text1, text2]
 
 def random_color():
-    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
+    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
 def generate_gradient(width, height, colors):
     base = Image.new('RGBA', (width, height), colors[0])
