@@ -29,7 +29,7 @@ def truncate(text):
 
     text1 = text1.strip()
     text2 = text2.strip()     
-    return [text1,text2]
+    return [text1, text2]
 
 def random_color():
     return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
@@ -153,9 +153,9 @@ async def get_thumb(videoid: str):
 
         # Use a multi-color gradient for a more aesthetic look
         gradient_colors = [
-            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
-            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
-            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            random_color(),
+            random_color(),
+            random_color()
         ]
         gradient_image = generate_gradient(1280, 720, gradient_colors)
         background = Image.blend(background, gradient_image, alpha=0.3)
@@ -177,7 +177,7 @@ async def get_thumb(videoid: str):
         draw_text_with_shadow(background, draw, (text_x_position, 320), f"{channel}  |  {views[:23]}", arial, (255, 255, 255))
 
         line_length = 580  
-        line_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        line_color = random_color()
 
         if duration != "Live":
             color_line_percentage = random.uniform(0.15, 0.85)
